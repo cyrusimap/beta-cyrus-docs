@@ -219,6 +219,19 @@ FIELD DESCRIPTIONS
 
     .. endblob allowsetacl
 
+    .. startblob allowspecialusesubfolder
+
+    ``allowspecialusesubfolder:`` 0
+
+        If enabled, allows special-use folders to be moved into subfolders
+
+        By default, cyrus does not allow a special-use folder to be moved or
+        renamed if the new folder is not a direct folder of the users INBOX.
+        This was implemented to prevent clients renaming Sent to Trash/Sent, 
+        which would confused other clients. 
+
+    .. endblob allowspecialusesubfolder
+
     .. startblob allowusermoves
 
     ``allowusermoves:`` 0
@@ -254,7 +267,7 @@ FIELD DESCRIPTIONS
     ``altprefix:`` Alt Folders
 
         Alternative INBOX spellings that can't be accessed in altnamespace
-        otherwise go under here 
+        otherwise go under here. 
 
     .. endblob altprefix
 
@@ -520,7 +533,7 @@ FIELD DESCRIPTIONS
 
         The authorization mechanism to use. 
 
-        Allowed values: *unix*, *pts*, *krb*, *krb5*
+        Allowed values: *unix*, *pts*, *krb5*, *mboxgroups*
 
 
     .. endblob auth_mech
@@ -801,9 +814,8 @@ FIELD DESCRIPTIONS
 
     ``backuppartition-name:`` <none>
 
-        The pathname of the backup partition *name*.  At least one backup
-        partition pathname MUST be specified if backups are in use.  Note that
-        there is no relationship between spool partitions and backup partitions. 
+        Deprecated. No longer used. 
+
 
     .. endblob backuppartition-name
 
@@ -811,13 +823,8 @@ FIELD DESCRIPTIONS
 
     ``backup_compact_minsize:`` 0
 
-        The minimum size of chunks in each backup.  The compact tool
-        will try to combine adjacent chunks that are smaller than this.
+        Deprecated. No longer used. 
 
-        Setting this value to zero or negative disables combining of chunks.
-
-        For backward compatibility, if no unit is specified, kibibytes is
-        assumed. 
 
     .. endblob backup_compact_minsize
 
@@ -825,13 +832,8 @@ FIELD DESCRIPTIONS
 
     ``backup_compact_maxsize:`` 0
 
-        The maximum size of chunks in each backup.  The compact tool
-        will try to split chunks larger than this into smaller chunks.
+        Deprecated. No longer used. 
 
-        Setting this value to zero or negative disables splitting of chunks.
-
-        For backward compatibility, if no unit is specified, kibibytes is
-        assumed. 
 
     .. endblob backup_compact_maxsize
 
@@ -839,9 +841,8 @@ FIELD DESCRIPTIONS
 
     ``backup_compact_work_threshold:`` 1
 
-        The number of chunks that must obviously need compaction before the compact
-        tool will go ahead with the compaction.  If set to less than one, the value
-        is treated as being one. 
+        Deprecated. No longer used. 
+
 
     .. endblob backup_compact_work_threshold
 
@@ -849,8 +850,8 @@ FIELD DESCRIPTIONS
 
     ``backup_staging_path:`` <none>
 
-        The absolute path of the backup staging area.  If not specified,
-        will be temp_path/backup 
+        Deprecated. No longer used. 
+
 
     .. endblob backup_staging_path
 
@@ -858,7 +859,7 @@ FIELD DESCRIPTIONS
 
     ``backup_retention_days:`` <none>
 
-        Deprecated in favor of *backup_retention*. 
+        Deprecated. No longer used. 
 
 
     .. endblob backup_retention_days
@@ -867,12 +868,8 @@ FIELD DESCRIPTIONS
 
     ``backup_retention:`` 7d
 
-        How long to keep content in backup after it has been deleted
-        from the source.  If set to a negative value or zero, deleted content
-        will be kept indefinitely.
+        Deprecated. No longer used. 
 
-        For backward compatibility, if no unit is specified, days is
-        assumed.  
 
     .. endblob backup_retention
 
@@ -880,9 +877,7 @@ FIELD DESCRIPTIONS
 
     ``backup_db:`` twoskip
 
-        The cyrusdb backend to use for the backup locations database. 
-
-        Allowed values: *skiplist*, *sql*, *twoskip*, *zeroskip*
+        Deprecated. No longer used. 
 
 
     .. endblob backup_db
@@ -891,8 +886,8 @@ FIELD DESCRIPTIONS
 
     ``backup_db_path:`` <none>
 
-        The absolute path to the backup db file.  If not specified,
-        will be configdirectory/backups.db 
+        Deprecated. No longer used. 
+
 
     .. endblob backup_db_path
 
@@ -900,14 +895,8 @@ FIELD DESCRIPTIONS
 
     ``backup_keep_previous:`` 0
 
-        Whether the **ctl_backups compact** and **ctl_backups reindex**
-        commands should preserve the original file.  The original file will
-        be named with a timestamped suffix.  This is mostly useful for
-        debugging.
+        Deprecated. No longer used. 
 
-        Note that with this enabled, compacting a backup will actually
-        increase the disk used by it (because there will now be an extra
-        copy: the original version, and the compacted version). 
 
     .. endblob backup_keep_previous
 
@@ -930,6 +919,35 @@ FIELD DESCRIPTIONS
         rather than rejecting them as errors. 
 
     .. endblob caldav_accept_invalid_rrules
+
+    .. startblob caldav_alarm_db_path
+
+    ``caldav_alarm_db_path:`` <none>
+
+        Path to the caldav_alarm database file - defaults to
+        $confdir/caldav_alarm.sqlite3 if not set 
+
+    .. endblob caldav_alarm_db_path
+
+    .. startblob caldav_alarm_support_components
+
+    ``caldav_alarm_support_components:`` VEVENT VTODO
+
+        Space-separated list of iCalendar component types for which
+        calalarmd generates alarms. 
+        Allowed values: *VEVENT*, *VTODO*
+
+
+    .. endblob caldav_alarm_support_components
+
+    .. startblob caldav_alarm_suppress_file
+
+    ``caldav_alarm_suppress_file:`` <none>
+
+        If this file exists, calalarmd will not process events 
+
+
+    .. endblob caldav_alarm_suppress_file
 
     .. startblob caldav_allowattach
 
@@ -1062,7 +1080,7 @@ FIELD DESCRIPTIONS
 
         Space-separated list of domains corresponding to calendar user
         addresses for which the server is responsible.  If not set (the
-        default), the value of the "servername" option will be used. 
+        default), the value of the "defaultdomain" option will be used. 
 
     .. endblob calendar_user_address_set
 
@@ -1086,10 +1104,19 @@ FIELD DESCRIPTIONS
 
         The minimum allowed interval between alarms for a recurring event.
         Primarily used to suppress alarms for MINUTELY and SECONDLY recurrences.
-        The default is 5 minutes.  The minimum value is 0, which will
-        allow all alarms. 
+        The minimum value is 0, which will allow all alarms. 
 
     .. endblob calendar_minimum_alarm_interval
+
+    .. startblob calendar_suppress_duplicate_alarms
+
+    ``calendar_suppress_duplicate_alarms:`` 1
+
+        Suppress duplicate calendar alarms in calalarmd. If this is set,
+        then at most one alarm notification is sent for any given alarm
+        action, point in time and calendar event. 
+
+    .. endblob calendar_suppress_duplicate_alarms
 
     .. startblob carddav_allowaddmember
 
@@ -1258,7 +1285,7 @@ FIELD DESCRIPTIONS
 
     ``conversations_keep_existing:`` 1
 
-        during conversations cleanup, don't clean up if there are still existing emails
+        During conversations cleanup, don't clean up if there are still existing emails
         with one of the mentioned CIDs. 
 
     .. endblob conversations_keep_existing
@@ -1277,7 +1304,7 @@ FIELD DESCRIPTIONS
     ``conversations_max_guidrecords:`` 5000
 
         maximum records with the same guid.  This is just a sanity check to stop the same
-        email being added and removed over and over, so the default is 5000 
+        email being added and removed over and over. 
 
     .. endblob conversations_max_guidrecords
 
@@ -1386,7 +1413,9 @@ FIELD DESCRIPTIONS
 
     ``debug:`` 0
 
-        If enabled, allow syslog() to pass LOG_DEBUG messages. 
+        If enabled, allow syslog() to pass LOG_DEBUG messages.
+
+        This can be toggled for a running process by sending it SIGUSR1.
 
 
     .. endblob debug
@@ -1411,6 +1440,17 @@ FIELD DESCRIPTIONS
         This is mainly useful for regression testing the sync_client -a switch. 
 
     .. endblob debug_log_sync_partition_choice
+
+    .. startblob debug_slowio
+
+    ``debug_slowio:`` 0
+
+        If enabled, I/O operations will be artificially slowed down.  This option
+        has no effect unless Cyrus was compiled with the --enable-debug-slowio
+        configure argument.  This is mainly useful for testing certain edge case
+        handling. 
+
+    .. endblob debug_slowio
 
     .. startblob debug_writefail_guid
 
@@ -1515,8 +1555,7 @@ FIELD DESCRIPTIONS
 
         Whether to also unsubscribe from mailboxes when they are deleted.
         Note that this behaviour contravenes :rfc:`3501` section 6.3.9, but
-        may be useful for avoiding user/client software confusion.
-        The default is 'no'. 
+        may be useful for avoiding user/client software confusion. 
 
     .. endblob delete_unsubscribe
 
@@ -1537,7 +1576,7 @@ FIELD DESCRIPTIONS
 
         Preclude list command on user namespace.  If set to 'yes', the
         LIST response will never include any other user's mailbox.  Admin
-        users will always see all mailboxes.  The default is 'no' 
+        users will always see all mailboxes. 
 
     .. endblob disable_user_namespace
 
@@ -1547,7 +1586,7 @@ FIELD DESCRIPTIONS
 
         Preclude list command on shared namespace.  If set to 'yes', the
         LIST response will never include any non-user mailboxes.  Admin
-        users will always see all mailboxes.  The default is 'no' 
+        users will always see all mailboxes. 
 
     .. endblob disable_shared_namespace
 
@@ -1681,7 +1720,7 @@ FIELD DESCRIPTIONS
 
         Space-separated list of extra parameters to add to any appropriated event. 
 
-        Allowed values: *bodyStructure*, *clientAddress*, *diskUsed*, *flagNames*, *messageContent*, *messageSize*, *messages*, *modseq*, *service*, *timestamp*, *uidnext*, *vnd.cmu.midset*, *vnd.cmu.unseenMessages*, *vnd.cmu.envelope*, *vnd.cmu.sessionId*, *vnd.cmu.mailboxACL*, *vnd.cmu.mbtype*, *vnd.cmu.davFilename*, *vnd.cmu.davUid*, *vnd.fastmail.clientId*, *vnd.fastmail.sessionId*, *vnd.fastmail.convExists*, *vnd.fastmail.convUnseen*, *vnd.fastmail.cid*, *vnd.fastmail.counters*, *vnd.fastmail.jmapEmail*, *vnd.fastmail.jmapStates*, *vnd.cmu.emailid*, *vnd.cmu.threadid*
+        Allowed values: *bodyStructure*, *clientAddress*, *diskUsed*, *flagNames*, *messageContent*, *messageSize*, *messages*, *modseq*, *service*, *timestamp*, *uidnext*, *vnd.cmu.midset*, *vnd.cmu.unseenMessages*, *vnd.cmu.envelope*, *vnd.cmu.sessionId*, *vnd.cmu.mailboxACL*, *vnd.cmu.mbtype*, *vnd.cmu.davFilename*, *vnd.cmu.davUid*, *vnd.fastmail.clientId*, *vnd.fastmail.sessionId*, *vnd.fastmail.convExists*, *vnd.fastmail.convUnseen*, *vnd.fastmail.cid*, *vnd.fastmail.counters*, *vnd.fastmail.jmapEmail*, *vnd.fastmail.jmapStates*, *vnd.cmu.emailid*, *vnd.cmu.threadid*, *vnd.cmu.visibleUsers*
 
 
     .. endblob event_extra_params
@@ -1741,6 +1780,19 @@ FIELD DESCRIPTIONS
 
     .. endblob failedloginpause
 
+    .. startblob fatals_abort
+
+    ``fatals_abort:`` 0
+
+        If enabled, when fatal errors are detected, Cyrus will call abort()
+        to produce a core dump, unless the error was due to a misbehaving
+        client.  This is useful if you have the ability to debug a core dump.
+
+        If not enabled (the default), the process will exit normally with
+        an error code. 
+
+    .. endblob fatals_abort
+
     .. startblob flushseenstate
 
     ``flushseenstate:`` 1
@@ -1769,6 +1821,15 @@ FIELD DESCRIPTIONS
         mechanisms for a specific host. 
 
     .. endblob force_sasl_client_mech
+
+    .. startblob global_lock
+
+    ``global_lock:`` 1
+
+        Use a global shared lock for ALL writes, allowing the global lock
+        wrapper tool to freeze the world 
+
+    .. endblob global_lock
 
     .. startblob fulldirhash
 
@@ -1957,8 +2018,7 @@ FIELD DESCRIPTIONS
     ``httptimeout:`` 5m
 
         Set the length of the HTTP server's inactivity autologout timer.
-        The default is 5 minutes.  The minimum value is 0, which will
-        disable persistent connections.
+        The minimum value is 0, which will disable persistent connections.
 
         For backwards compatibility, if no unit is specified, minutes
         is assumed. 
@@ -2089,6 +2149,18 @@ FIELD DESCRIPTIONS
 
     .. endblob imapmagicplus
 
+    .. startblob imap_inprogress_interval
+
+    ``imap_inprogress_interval:`` 10s
+
+        The interval after which the server will send an "INPROGRESS"
+        response code to the client during a long-running imap command
+        (e.g. search, copy).
+        The default is 10 seconds.
+        The minimum value is 0, which will disable "INPROGRESS" response codes. 
+
+    .. endblob imap_inprogress_interval
+
     .. startblob imipnotifier
 
     ``imipnotifier:`` <none>
@@ -2121,17 +2193,20 @@ FIELD DESCRIPTIONS
 
     ``improved_mboxlist_sort:`` 0
 
-        If enabled, a special comparator will be used which will correctly
-        sort mailbox names that contain characters such as ' ' and '-'.
+        Not used anymore. 
 
-        Note that this option SHOULD NOT be changed on a live system.  The
-        mailboxes database should be dumped (ctl_mboxlist) before the
-        option is changed, removed, and then undumped after changing the
-        option.  When not using flat files for the subscriptions databases
-        the same has to be done (cyr_dbtool) for each subscription database
-        See improved_mboxlist_sort.html.
 
     .. endblob improved_mboxlist_sort
+
+    .. startblob jmapaccess_url
+
+    ``jmapaccess_url:`` <none>
+
+        The JMAP Session URL to advertise to sucessfully authenticated IMAP clients,
+        if the same credentials can be used to authenticate via JMAP
+        (see draft-ietf-extra-jmapaccess). 
+
+    .. endblob jmapaccess_url
 
     .. startblob jmap_emailsearch_db_path
 
@@ -2223,7 +2298,7 @@ FIELD DESCRIPTIONS
     ``jmap_max_catenate_items:`` 100
 
         The maximum number of items that can be catenated together by
-        a JMAP Blob/set action.  Returned as the maxCatenateItems property
+        a JMAP Blob/upload action.  Returned as the maxDataSources property
         value of the JMAP \"urn:ietf:params:jmap:blob\" capabilities object.
         Default value is 100. 
 
@@ -2246,9 +2321,9 @@ FIELD DESCRIPTIONS
 
     ``jmap_max_size_blob_set:`` 4M
 
-        The maximum size that the JMAP API accepts for Blob/set. Returned as the
+        The maximum size that the JMAP API accepts for Blob/upload. Returned as the
         maxSizeBlobSet property value of the JMAP
-        \"https://cyrusimap.org/ns/jmap/blob\" capabilities object.
+        \"urn:ietf:params:jmap:blob\" capabilities object.
 
         For backward compatibility, if no unit is specified, kibibytes is assumed.
 
@@ -2404,7 +2479,7 @@ FIELD DESCRIPTIONS
 
     ``jmapuploadfolder:`` #jmap
 
-        the name of the folder for JMAP uploads (#jmap) 
+        The name of the folder for JMAP uploads. 
 
 
     .. endblob jmapuploadfolder
@@ -2422,7 +2497,7 @@ FIELD DESCRIPTIONS
 
     ``jmapsubmissionfolder:`` #jmapsubmission
 
-        the name of the folder for JMAP Submissions (#jmapsubmission) 
+        The name of the folder for JMAP Submissions. 
 
 
     .. endblob jmapsubmissionfolder
@@ -2431,7 +2506,7 @@ FIELD DESCRIPTIONS
 
     ``jmappushsubscriptionfolder:`` #jmappushsubscription
 
-        the name of the folder for JMAP Push Subscriptions (#jmappushsubscription) 
+        The name of the folder for JMAP Push Subscriptions. 
 
 
     .. endblob jmappushsubscriptionfolder
@@ -2440,7 +2515,7 @@ FIELD DESCRIPTIONS
 
     ``jmapnotificationfolder:`` #jmapnotification
 
-        the name of the folder for JMAP notifications (#jmapnotification) 
+        The name of the folder for JMAP notifications. 
 
 
     .. endblob jmapnotificationfolder
@@ -2568,6 +2643,15 @@ FIELD DESCRIPTIONS
 
 
     .. endblob ldap_group_base
+
+    .. startblob ldap_groupmember_attribute
+
+    ``ldap_groupmember_attribute:`` member
+
+        Specify a field within groups with a list of members. 
+
+
+    .. endblob ldap_groupmember_attribute
 
     .. startblob ldap_group_filter
 
@@ -3046,7 +3130,7 @@ FIELD DESCRIPTIONS
         Timeout used during a lmtp transaction to a remote backend (e.g. in a
         murder environment).  Can be used to prevent hung lmtpds on proxy hosts
         when a backend server becomes unresponsive during a lmtp transaction.
-        The default is 5 minutes - change to zero for infinite.
+        Change to zero for infinite.
 
         For backward compatibility, if no unit is specified, seconds is
         assumed. 
@@ -3059,7 +3143,8 @@ FIELD DESCRIPTIONS
 
         A floating point number of seconds.  If set, time how long we wait for
         any lock, and syslog the filename and time if it's longer than this
-        value.  The default of NULL means not to time locks. 
+        value.  The default of NULL means not to time locks.  This is
+        implemented for fcntl(2) locks and has no effect on flock(2) locks. 
 
     .. endblob lock_debugtime
 
@@ -3911,7 +3996,7 @@ FIELD DESCRIPTIONS
 
     ``prometheus_enabled:`` 0
 
-        Whether tracking of service metrics for Prometheus is enabled. 
+        Whether tracking of metrics for Prometheus is enabled. 
 
 
     .. endblob prometheus_enabled
@@ -3931,13 +4016,47 @@ FIELD DESCRIPTIONS
 
     ``prometheus_update_freq:`` 10s
 
-        Frequency in at which promstatsd should re-collate its statistics
-        report.  The minimum value is 1 second, the default is 10 seconds.
-
-        For backward compatibility, if no unit is specified, seconds is
-        assumed. 
+        Deprecated in favour of *prometheus_service_update_freq*,
+        *prometheus_master_update_freq*, and
+        *prometheus_usage_update_freq*. 
 
     .. endblob prometheus_update_freq
+
+    .. startblob prometheus_service_update_freq
+
+    ``prometheus_service_update_freq:`` 10s
+
+        Frequency in at which promstatsd should re-collate its service
+        statistics report.  The minimum value is 1 second.
+
+        If no unit is specified, seconds is assumed. 
+
+    .. endblob prometheus_service_update_freq
+
+    .. startblob prometheus_master_update_freq
+
+    ``prometheus_master_update_freq:`` <none>
+
+        Frequency in at which master should re-collate its statistics report.
+        If not set, *prometheus_service_update_freq* is used.
+
+        If no unit is specified, seconds is assumed. 
+
+    .. endblob prometheus_master_update_freq
+
+    .. startblob prometheus_usage_update_freq
+
+    ``prometheus_usage_update_freq:`` <none>
+
+        Frequency in at which promstatsd should re-collate its usage
+        statistics report.  Note that this report is relatively expensive to
+        produce.  If not set, usage statistics are not reported.
+
+        Best to make this a multiple of *prometheus_service_update_freq*.
+
+        If no unit is specified, seconds is assumed. 
+
+    .. endblob prometheus_usage_update_freq
 
     .. startblob prometheus_stats_dir
 
@@ -4199,6 +4318,15 @@ FIELD DESCRIPTIONS
         \* no writes allowed. 
 
     .. endblob readonly
+
+    .. startblob replicaonly
+
+    ``replicaonly:`` 0
+
+        If enabled, nothing is allowed to increase modseq or uidvalidity,
+        \* no writes allowed at all. 
+
+    .. endblob replicaonly
 
     .. startblob reject8bit
 
@@ -4629,7 +4757,7 @@ FIELD DESCRIPTIONS
 
         When searching, should diacriticals be stripped from the search
         terms.  The default is "true", a search for "hav" will match
-        "Håvard".  This is not :rfc:`5051` compliant, but it backwards
+        "Håvard".  This is not :rfc:`5051` compliant, but is backwards
         compatible, and may be preferred by some sites. 
 
     .. endblob search_skipdiacrit
@@ -4857,7 +4985,7 @@ FIELD DESCRIPTIONS
 
     .. startblob sieve_extensions
 
-    ``sieve_extensions:`` fileinto reject vacation vacation-seconds notify include envelope environment body relational regex subaddress copy date index imap4flags mailbox mboxmetadata servermetadata variables editheader extlists duplicate ihave fcc special-use redirect-dsn redirect-deliverby mailboxid vnd.cyrus.log vnd.cyrus.jmapquery vnd.cyrus.imip snooze vnd.cyrus.implicit_keep_target
+    ``sieve_extensions:`` fileinto reject vacation vacation-seconds notify include envelope environment body relational regex subaddress copy date index imap4flags mailbox mboxmetadata servermetadata variables editheader extlists duplicate ihave fcc special-use redirect-dsn redirect-deliverby mailboxid vnd.cyrus.log vnd.cyrus.jmapquery processcalendar snooze vnd.cyrus.implicit_keep_target
 
         Space-separated list of Sieve extensions allowed to be used in
         sieve scripts, enforced at submission by timsieved(8).  Any
@@ -4865,7 +4993,7 @@ FIELD DESCRIPTIONS
         will continue to execute regardless of the extensions used.  This
         option has no effect on options that are disabled at compile time
         (e.g., "regex"). 
-        Allowed values: *fileinto*, *reject*, *vacation*, *vacation-seconds*, *notify*, *include*, *envelope*, *environment*, *body*, *relational*, *regex*, *subaddress*, *copy*, *date*, *index*, *imap4flags=imapflags*, *mailbox*, *mboxmetadata*, *servermetadata*, *variables*, *editheader*, *extlists*, *duplicate*, *ihave*, *fcc*, *special-use*, *redirect-dsn*, *redirect-deliverby*, *mailboxid*, *vnd.cyrus.log=x-cyrus-log*, *vnd.cyrus.jmapquery=x-cyrus-jmapquery*, *vnd.cyrus.imip*, *snooze=vnd.cyrus.snooze=x-cyrus-snooze*, *vnd.cyrus.implicit_keep_target*
+        Allowed values: *fileinto*, *reject*, *vacation*, *vacation-seconds*, *notify*, *include*, *envelope*, *environment*, *body*, *relational*, *regex*, *subaddress*, *copy*, *date*, *index*, *imap4flags=imapflags*, *mailbox*, *mboxmetadata*, *servermetadata*, *variables*, *editheader*, *extlists*, *duplicate*, *ihave*, *fcc*, *special-use*, *redirect-dsn*, *redirect-deliverby*, *mailboxid*, *vnd.cyrus.log=x-cyrus-log*, *vnd.cyrus.jmapquery=x-cyrus-jmapquery*, *processcalendar=vnd.cyrus.imip*, *snooze=vnd.cyrus.snooze=x-cyrus-snooze*, *vnd.cyrus.implicit_keep_target*
 
 
     .. endblob sieve_extensions
@@ -4874,7 +5002,7 @@ FIELD DESCRIPTIONS
 
     ``sieve_folder:`` #sieve
 
-        The name of the folder for storing Sieve scripts (#sieve) 
+        The name of the folder for storing Sieve scripts. 
 
 
     .. endblob sieve_folder
@@ -4912,10 +5040,10 @@ FIELD DESCRIPTIONS
 
     .. startblob sieve_sasl_send_unsolicited_capability
 
-    ``sieve_sasl_send_unsolicited_capability:`` 0
+    ``sieve_sasl_send_unsolicited_capability:`` 1
 
-        If enabled, timsieved will emit a capability response after a successful
-        SASL authentication, per draft-martin-managesieve-12.txt . 
+        Deprecated: this option does nothing. 
+
 
     .. endblob sieve_sasl_send_unsolicited_capability
 
@@ -4932,8 +5060,8 @@ FIELD DESCRIPTIONS
 
     ``sieve_vacation_min_response:`` 3d
 
-        Minimum time interval between consecutive vacation responses, per
-        draft-ietf-vacation-seconds.txt.  The default is 3 days.
+        Minimum time interval between consecutive vacation responses, per :rfc:`6131`.
+        The default is 3 days.
 
         For backward compatibility, if no unit is specified, seconds is
         assumed. 
@@ -4944,9 +5072,8 @@ FIELD DESCRIPTIONS
 
     ``sieve_vacation_max_response:`` 90d
 
-        Maximum time interval between consecutive vacation responses, per
-        draft-ietf-vacation-seconds.txt.  The default is 90 days.  The
-        minimum is 7 days.
+        Maximum time interval between consecutive vacation responses, per :rfc:`6131`.
+        The default is 90 days.  The minimum is 7 days.
 
         For backward compatibility, if no unit is specified, seconds is
         assumed. 
@@ -4987,7 +5114,7 @@ FIELD DESCRIPTIONS
     ``anysievefolder:`` 0
 
         It must be "yes" in order to permit the autocreation of any INBOX subfolder
-        requested by a sieve filter, through the "fileinto" action. (default = no) 
+        requested by a sieve filter, through the "fileinto" action. 
 
     .. endblob anysievefolder
 
@@ -5155,8 +5282,8 @@ FIELD DESCRIPTIONS
 
     ``specialusealways:`` 1
 
-        If enabled, this option causes LIST and LSUB output to always include
-        the XLIST "special-use" flags. 
+        If enabled, this option causes unextended LIST and LSUB output to
+        include the "special-use" flags. 
 
     .. endblob specialusealways
 
@@ -5266,9 +5393,8 @@ FIELD DESCRIPTIONS
 
     ``srvtab:`` <empty string>
 
-        The pathname of *srvtab* file containing the server's private
-        key.  This option is passed to the SASL library and overrides its
-        default setting. 
+        Deprecated: This option does nothing. 
+
 
     .. endblob srvtab
 
@@ -5840,7 +5966,7 @@ FIELD DESCRIPTIONS
     ``tls_server_dhparam:`` <none>
 
         File containing the DH parameters belonging to the certificate in
-        tls_server_cert. 
+        tls_server_cert. Used by OpenSSL before version 3.0. 
 
     .. endblob tls_server_dhparam
 
@@ -6088,9 +6214,8 @@ FIELD DESCRIPTIONS
 
     ``xbackup_enabled:`` 0
 
-        Enable support for the XBACKUP command in imapd.  If enabled, admin
-        users can use this command to provoke a replication of specified users
-        to the named backup channel. 
+        Deprecated. No longer used. 
+
 
     .. endblob xbackup_enabled
 

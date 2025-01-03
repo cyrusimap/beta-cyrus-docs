@@ -21,9 +21,7 @@ Major changes since the 3.8 series
 Storage changes
 ===============
 
-* None in 3.10.  But if your upgrade is skipping over 3.6 and 3.8, please do
-  not miss :ref:`3.6.0 Storage changes <relnotes_3.6.0_storage_changes>`
-  and :ref:`3.8.0 Storage changes <relnotes_3.8.0_storage_changes>`
+* None so far
 
 Updates to default configuration
 ================================
