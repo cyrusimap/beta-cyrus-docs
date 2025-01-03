@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cyr_withlock_run &mdash; Cyrus IMAP 3.11.0-alpha0 (dev) documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/cyrus.css" type="text/css" />
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="cyradm" href="cyradm.html" />
+    <link rel="prev" title="cyr_virusscan" href="cyr_virusscan.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Cyrus IMAP
+          </a>
+              <div class="version">
+                3.11.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Cyrus IMAP</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../setup.html">Setup</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../operations.html">Operations</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Man pages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#configuration-files">(5) Configuration Files</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#system-commands">(8) System Commands</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="arbitron.html"><strong>arbitron</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="chk_cyrus.html"><strong>chk_cyrus</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctl_conversationsdb.html"><strong>ctl_conversationsdb</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctl_cyrusdb.html"><strong>ctl_cyrusdb</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctl_deliver.html"><strong>ctl_deliver</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctl_mboxlist.html"><strong>ctl_mboxlist</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ctl_zoneinfo.html"><strong>ctl_zoneinfo</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cvt_cyrusdb.html"><strong>cvt_cyrusdb</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cvt_xlist_specialuse.html"><strong>cvt_xlist_specialuse</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_buildinfo.html"><strong>cyr_buildinfo</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_dbtool.html"><strong>cyr_dbtool</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_deny.html"><strong>cyr_deny</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_df.html"><strong>cyr_df</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_expire.html"><strong>cyr_expire</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_info.html"><strong>cyr_info</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_ls.html"><strong>cyr_ls</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_synclog.html"><strong>cyr_synclog</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_userseen.html"><strong>cyr_userseen</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyr_virusscan.html"><strong>cyr_virusscan</strong></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><strong>cyr_withlock_run</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyradm.html"><strong>cyradm</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cyrdump.html"><strong>cyrdump</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="deliver.html"><strong>deliver</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fetchnews.html"><strong>fetchnews</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fud.html"><strong>fud</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="httpd.html"><strong>httpd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="idled.html"><strong>idled</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="imapd.html"><strong>imapd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipurge.html"><strong>ipurge</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmtpd.html"><strong>lmtpd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="lmtpproxyd.html"><strong>lmtpproxyd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="masssievec.html"><strong>masssievec</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="master.html"><strong>master</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mbexamine.html"><strong>mbexamine</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mbpath.html"><strong>mbpath</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mbtool.html"><strong>mbtool</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mkimap.html"><strong>mkimap</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mknewsgroups.html"><strong>mknewsgroups</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="mupdate.html"><strong>mupdate</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="nntpd.html"><strong>nntpd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="notifyd.html"><strong>notifyd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pop3d.html"><strong>pop3d</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pop3proxyd.html"><strong>pop3proxyd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="promstatsd.html"><strong>promstatsd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="proxyd.html"><strong>proxyd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ptdump.html"><strong>ptdump</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ptexpire.html"><strong>ptexpire</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ptloader.html"><strong>ptloader</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="quota.html"><strong>quota</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reconstruct.html"><strong>reconstruct</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="rehash.html"><strong>rehash</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="relocate_by_id.html"><strong>relocate_by_id</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sievec.html"><strong>sievec</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sieved.html"><strong>sieved</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="smmapd.html"><strong>smmapd</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="squatter.html"><strong>squatter</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sync_client.html"><strong>sync_client</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sync_reset.html"><strong>sync_reset</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sync_server.html"><strong>sync_server</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="timsieved.html"><strong>timsieved</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tls_prune.html"><strong>tls_prune</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="translatesieve.html"><strong>translatesieve</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unexpunge.html"><strong>unexpunge</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#user-commands">(1) User Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../admin.html">Administrator Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developers.html">Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../support.html">Support/Community</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cyrus SASL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="http://www.cyrusimap.org/sasl">Cyrus SASL</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Cyrus IMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../operations.html">Operations</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Man pages</a></li>
+      <li class="breadcrumb-item active"><strong>cyr_withlock_run</strong></li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/cyrusimap/cyrus-imapd/blob/master/docsrc/imap/reference/manpages/systemcommands/cyr_withlock_run.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <span class="target" id="std-cyrusman-cyr_withlock_run-8"></span><section id="cyr-withlock-run">
+<span id="imap-reference-manpages-systemcommands-cyr-withlock-run"></span><h1><strong>cyr_withlock_run</strong><a class="headerlink" href="#cyr-withlock-run" title="Permalink to this heading"></a></h1>
+<p>is used to run system command with a lock held</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This command runs as the Cyrus user, so if you need to call something
+as root, the cyrus user may need sudo privileges.</p>
+</div>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
+<pre class="literal-block"><strong>cyr_withlock_run</strong> [ <strong>-C</strong> <em>config-file</em> ] [ <strong>-u</strong> <em>userid</em> ] cmd args...</pre>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
+<p><strong>cyr_withlock_run</strong> will run the command and arguments provided on the
+command line, either locking the entire server, or a particular user, so
+no changes can be made to it while this command is running.</p>
+<p>WARNING: since this takes an exclusive lock, it will deadlock if the command tries
+to connect to Cyrus via IMAP/JMAP/etc and run commands that take exclusive locks.
+You can run cyrus commandline tools so long as the environment is passed through.</p>
+<p>It is most useful for running an external filesystem snapshot command, which can
+be run safely, knowing that files aren't in a partial state.</p>
+<p><strong>cyr_withlock_run</strong> reads its configuration options out of the <a class="reference internal" href="../configs/imapd.conf.html#std-cyrusman-imapd.conf-5">imapd.conf(5)</a> file unless specified otherwise by <strong>-C</strong>.</p>
+</section>
+<section id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this heading"></a></h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-cyr_withlock_run-C">
+<span id="cmdoption-cyr-withlock-run-c"></span><span class="sig-name descname"><span class="pre">-C</span></span><span class="sig-prename descclassname"> <span class="pre">config-file</span></span><a class="headerlink" href="#cmdoption-cyr_withlock_run-C" title="Permalink to this definition"></a></dt>
+<dd><p>Use the specified configuration file <em>config-file</em> rather than the default <a class="reference internal" href="../configs/imapd.conf.html#std-cyrusman-imapd.conf-5">imapd.conf(5)</a>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-cyr_withlock_run-u">
+<span id="cmdoption-cyr-withlock-run-u"></span><span id="cmdoption-cyr_withlock_run-user"></span><span id="cmdoption-cyr-withlock-run-user"></span><span class="sig-name descname"><span class="pre">-u</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--user</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;userid&gt;</span></span><a class="headerlink" href="#cmdoption-cyr_withlock_run-u" title="Permalink to this definition"></a></dt>
+<dd><p>Lock just the specified userid rather than the global lock.</p>
+<p>NOTE: if you run for the global lock, then your server must have the
+<cite>global_lock</cite> config option set, or this command will fail with an
+error as it can't get a guaranteed lock.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<pre class="literal-block"><strong>cyr_withlock_run</strong> sleep 300</pre>
+<blockquote>
+<div><p>Pause all writes on the server for 300 seconds (stops any writes from getting locks)</p>
+</div></blockquote>
+</section>
+<section id="files">
+<h2>Files<a class="headerlink" href="#files" title="Permalink to this heading"></a></h2>
+<p>/etc/imapd.conf</p>
+</section>
+<section id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this heading"></a></h2>
+<p>Sets the <cite>CYRUS_HAVELOCK_GLOBAL</cite> or <cite>CYRUS_HAVELOCK_USER</cite> environment variables,
+to tell any called cyrus command that this lock is already held.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading"></a></h2>
+<p><a class="reference internal" href="../configs/imapd.conf.html#std-cyrusman-imapd.conf-5">imapd.conf(5)</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cyr_virusscan.html" class="btn btn-neutral float-left" title="cyr_virusscan" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cyradm.html" class="btn btn-neutral float-right" title="cyradm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 1993–2025, The Cyrus Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ 
+
+
+
+</body>
+</html>
